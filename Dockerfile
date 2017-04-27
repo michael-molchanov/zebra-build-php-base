@@ -62,8 +62,8 @@ RUN set -xe \
   && docker-php-ext-install gd \
   && docker-php-ext-configure ldap --with-libdir=lib/ \
   && docker-php-ext-install ldap \
-  && docker-php-source delete \
   && git clone --branch="php7" https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
   && docker-php-ext-install redis \
   && php -m && php -r "new Redis();" \
+  && docker-php-source delete \
   && apk del .build-deps
