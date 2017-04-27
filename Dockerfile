@@ -45,23 +45,25 @@ RUN set -xe \
     openldap-dev \
     make \
     unzip \
+    libpq \
+    mysql-client \
+    postgresql-client \
+    postgresql-dev \
+    patch \
+    tar \
   && export CFLAGS="$PHP_CFLAGS" \
     CPPFLAGS="$PHP_CPPFLAGS" \
     LDFLAGS="$PHP_LDFLAGS" \
   && docker-php-source extract \
   && cd /usr/src/php \
   && docker-php-ext-install bcmath mcrypt zip bz2 mbstring pcntl xsl \
+  && docker-php-ext-install mysqli pgsql pdo_mysql pdo_pgsql \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-install gd \
   && docker-php-ext-configure ldap --with-libdir=lib/ \
   && docker-php-ext-install ldap \
   && docker-php-source delete \
-  && runDeps="$( \
-    scanelf --needed --nobanner --recursive /usr/local \
-    	| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-    	| sort -u \
-    	| xargs -r apk info --installed \
-    	| sort -u \
-    )" \
-  && apk add --no-cache --virtual .php-rundeps $runDeps \
+  && git clone --branch="php7" https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
+  && docker-php-ext-install redis \
+  && php -m && php -r "new Redis();" \
   && apk del .build-deps
