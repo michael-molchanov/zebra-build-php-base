@@ -31,6 +31,7 @@ RUN apk add --update --no-cache \
   openssl \
   openssl-dev \
   postgresql-client \
+  rsync \
   sqlite \
   wget \
   tar \
