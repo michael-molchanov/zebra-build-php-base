@@ -33,7 +33,6 @@ RUN apk add --update --no-cache \
   postgresql-client \
   rsync \
   sqlite \
-  wget \
   tar \
   unzip \
   wget \
