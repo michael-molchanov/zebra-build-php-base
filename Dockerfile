@@ -30,6 +30,7 @@ RUN apk add --update --no-cache \
   openssh \
   openssl \
   openssl-dev \
+  procps \
   postgresql-client \
   rsync \
   sqlite \
